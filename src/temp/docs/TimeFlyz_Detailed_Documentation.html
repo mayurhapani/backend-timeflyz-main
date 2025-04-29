@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TimeFlyz Backend Documentation</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        background-color: #f9f9f9;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      h1 {
+        color: #2c3e50;
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #3498db;
+      }
+      h2 {
+        color: #3498db;
+        font-size: 24px;
+        margin-top: 40px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        transition: color 0.3s;
+      }
+      h2:hover {
+        color: #2980b9;
+      }
+      h3 {
+        color: #2980b9;
+        font-size: 18px;
+        margin-top: 30px;
+        border-left: 4px solid #3498db;
+        padding-left: 12px;
+        background-color: #f0f7fc;
+        padding: 8px 12px;
+        border-radius: 0 5px 5px 0;
+        transition: background-color 0.3s;
+      }
+      h3:hover {
+        background-color: #e0f0fc;
+      }
+      ul,
+      ol {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      code {
+        background-color: #f8f8f8;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+        font-size: 14px;
+        color: #e74c3c;
+        border: 1px solid #eee;
+      }
+      pre {
+        background-color: #f8f8f8;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .endpoint {
+        margin-bottom: 5px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+        font-size: 14px;
+      }
+      strong {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+      .method {
+        color: white;
+        border-radius: 4px;
+        padding: 3px 8px;
+        font-weight: bold;
+        margin-right: 8px;
+        display: inline-block;
+        font-size: 12px;
+        text-transform: uppercase;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .get {
+        background-color: #2ecc71;
+      }
+      .post {
+        background-color: #3498db;
+      }
+      .put {
+        background-color: #f39c12;
+      }
+      .delete {
+        background-color: #e74c3c;
+      }
+      .process-block {
+        background-color: #f9f9f9;
+        border-left: 4px solid #ddd;
+        padding: 15px 20px;
+        margin: 15px 0;
+        border-radius: 0 5px 5px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: border-left-color 0.3s;
+      }
+      .process-block:hover {
+        border-left-color: #3498db;
+      }
+      .highlight {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .toc {
+        background-color: #f0f7fc;
+        padding: 25px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+      .toc h2 {
+        margin-top: 0;
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      .toc ul {
+        columns: 3;
+        padding-left: 20px;
+      }
+      @media (max-width: 768px) {
+        .toc ul {
+          columns: 2;
+        }
+      }
+      @media (max-width: 480px) {
+        .toc ul {
+          columns: 1;
+        }
+      }
+      .toc a {
+        text-decoration: none;
+        color: #3498db;
+        transition: color 0.3s;
+        line-height: 1.8;
+      }
+      .toc a:hover {
+        color: #e74c3c;
+        text-decoration: underline;
+      }
+      .toc-module {
+        font-weight: bold;
+        margin-top: 15px;
+        color: #2c3e50;
+        border-bottom: 1px dashed #ddd;
+        padding-bottom: 5px;
+      }
+      #back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #3498db;
+        color: white;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        line-height: 48px;
+        font-size: 24px;
+        text-decoration: none;
+        opacity: 0.7;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.3s, transform 0.3s;
+        z-index: 1000;
+        display: none;
+      }
+      #back-to-top:hover {
+        opacity: 1;
+        transform: translateY(-5px);
+      }
+      header {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: white;
+        padding: 30px 0;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+      header h1 {
+        color: white;
+        border-bottom: none;
+        margin: 0;
+        padding: 0;
+      }
+      .subheading {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 18px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="top">
+      <h1>TimeFlyz Documentation - Backend</h1>
+      <div class="subheading">API Reference & Implementation Guide</div>
+    </header>
+
+    <div class="container">
+      <div class="toc">
+        <h2>Table of Contents</h2>
+
+        <div class="toc-module">Authentication Module</div>
+        <ul>
+          <li><a href="#auth-login">POST /api/v1/auth/login</a></li>
+          <li><a href="#auth-logout">GET /api/v1/auth/logout</a></li>
+          <li><a href="#auth-forgot-password">POST /api/v1/auth/forgot-password</a></li>
+          <li><a href="#auth-verify-otp">POST /api/v1/auth/verify-otp</a></li>
+          <li><a href="#auth-set-forgot-password">POST /api/v1/auth/set-forgot-password</a></li>
+          <li><a href="#auth-reset-password">POST /api/v1/auth/reset-password</a></li>
+          <li><a href="#auth-send-verification">POST /api/v1/auth/sendEmailVerificationMail</a></li>
+          <li><a href="#auth-verify-email">POST /api/v1/auth/verify-email</a></li>
+        </ul>
+
+        <div class="toc-module">Guest User Module</div>
+        <ul>
+          <li><a href="#guest-create">POST /api/v1/guest/create</a></li>
+        </ul>
+
+        <div class="toc-module">Hotel Module</div>
+        <ul>
+          <li><a href="#hotel-create">POST /api/v1/hotel/create</a></li>
+          <li><a href="#hotel-get">GET /api/v1/hotel/get/:id</a></li>
+          <li><a href="#hotel-delete">DELETE /api/v1/hotel/delete/:ids</a></li>
+          <li><a href="#hotel-update">PUT /api/v1/hotel/update/:id</a></li>
+          <li><a href="#hotel-getall">GET /api/v1/hotel/getAll</a></li>
+        </ul>
+
+        <div class="toc-module">Hotel Amenities Module</div>
+        <ul>
+          <li><a href="#amenities-create">POST /api/v1/hotelAmenities/create</a></li>
+          <li><a href="#amenities-get">GET /api/v1/hotelAmenities/get/:id</a></li>
+          <li><a href="#amenities-delete">DELETE /api/v1/hotelAmenities/delete/:ids</a></li>
+          <li><a href="#amenities-update">PUT /api/v1/hotelAmenities/update/:id</a></li>
+          <li><a href="#amenities-getall">GET /api/v1/hotelAmenities/getAll</a></li>
+        </ul>
+
+        <div class="toc-module">User Module</div>
+        <ul>
+          <li><a href="#user-create">POST /api/v1/user/create</a></li>
+          <li><a href="#user-get">GET /api/v1/user/get/:id</a></li>
+          <li><a href="#user-delete">DELETE /api/v1/user/delete/:ids</a></li>
+          <li><a href="#user-update">PUT /api/v1/user/update/:id</a></li>
+          <li><a href="#user-getall">GET /api/v1/user/getAll</a></li>
+        </ul>
+
+        <div class="toc-module">Customer Module</div>
+        <ul>
+          <li><a href="#customer-create">POST /api/v1/customer/create</a></li>
+          <li><a href="#customer-get">GET /api/v1/customer/get/:id</a></li>
+          <li><a href="#customer-delete">DELETE /api/v1/customer/delete/:id</a></li>
+          <li><a href="#customer-update">PUT /api/v1/customer/update/:id</a></li>
+          <li><a href="#customer-getall">GET /api/v1/customer/getAll</a></li>
+          <li><a href="#customer-favorites">GET /api/v1/customer/addToFavorites/:id</a></li>
+        </ul>
+
+        <div class="toc-module">Reviews Module</div>
+        <ul>
+          <li><a href="#review-create">POST /api/v1/review/create</a></li>
+          <li><a href="#review-get">GET /api/v1/review/get/:id</a></li>
+          <li><a href="#review-delete">DELETE /api/v1/review/delete/:ids</a></li>
+          <li><a href="#review-update">PUT /api/v1/review/update/:id</a></li>
+          <li><a href="#review-getall">GET /api/v1/review/getAll</a></li>
+        </ul>
+
+        <div class="toc-module">Room Module</div>
+        <ul>
+          <li><a href="#room-create">POST /api/v1/room/create</a></li>
+        </ul>
+
+        <div class="toc-module">Master Room Module</div>
+        <ul>
+          <li><a href="#masterroom-create">POST /api/v1/masterRoom/create</a></li>
+          <li><a href="#masterroom-get">GET /api/v1/masterRoom/get/:id</a></li>
+          <li><a href="#masterroom-delete">DELETE /api/v1/masterRoom/delete/:ids</a></li>
+          <li><a href="#masterroom-update">PUT /api/v1/masterRoom/update/:id</a></li>
+          <li><a href="#masterroom-getall">GET /api/v1/masterRoom/getAll</a></li>
+        </ul>
+
+        <div class="toc-module">Sub Room Module</div>
+        <ul>
+          <li><a href="#subroom-create">POST /api/v1/subRoom/create</a></li>
+          <li><a href="#subroom-get">GET /api/v1/subRoom/get/:id</a></li>
+          <li><a href="#subroom-delete">DELETE /api/v1/subRoom/delete/:ids</a></li>
+          <li><a href="#subroom-update">PUT /api/v1/subRoom/update/:id</a></li>
+          <li><a href="#subroom-getall">GET /api/v1/subRoom/getAll</a></li>
+        </ul>
+
+        <div class="toc-module">Booking Module</div>
+        <ul>
+          <li><a href="#booking-create">POST /api/v1/booking/create</a></li>
+          <li><a href="#booking-get">GET /api/v1/booking/get/:id</a></li>
+          <li><a href="#booking-update">PUT /api/v1/booking/update/:id</a></li>
+          <li><a href="#booking-delete">DELETE /api/v1/booking/delete/:id</a></li>
+          <li><a href="#booking-cancel-request">POST /api/v1/booking/requestBookingCancellation/:bookingId</a></li>
+          <li><a href="#booking-cancel-respond">POST /api/v1/booking/respondToCancellationRequest/:bookingId</a></li>
+          <li><a href="#booking-getall">GET /api/v1/booking/getAll</a></li>
+        </ul>
+
+        <div class="toc-module">Slot Module</div>
+        <ul>
+          <li><a href="#slot-create">POST /api/v1/slot/create</a></li>
+          <li><a href="#slot-get">GET /api/v1/slot/get/:id</a></li>
+          <li><a href="#slot-update">PUT /api/v1/slot/update/:id</a></li>
+          <li><a href="#slot-delete">DELETE /api/v1/slot/delete/:ids</a></li>
+          <li><a href="#slot-getall">GET /api/v1/slot/getAll</a></li>
+        </ul>
+
+        <div class="toc-module">Payment Module</div>
+        <ul>
+          <li><a href="#payment-intent">POST /api/v1/payment/create-payment-intent</a></li>
+          <li><a href="#payment-webhook">POST /api/v1/payment/webhook</a></li>
+          <li><a href="#payment-get">GET /api/v1/payment/get/:id</a></li>
+          <li><a href="#payment-refund">POST /api/v1/payment/refund</a></li>
+        </ul>
+
+        <div class="toc-module">Common Routes</div>
+        <ul>
+          <li><a href="#common-upload">POST /api/v1/common/tempFileUpload</a></li>
+        </ul>
+      </div>
+
+      <h2>Authentication Module</h2>
+
+      <h3 id="auth-login"><span class="method post">POST</span> /api/v1/auth/login</h3>
+      <p><strong>Admin:</strong></p>
+      <ul>
+        <li>email id + password</li>
+      </ul>
+
+      <p><strong>Customer:</strong></p>
+      <ul>
+        <li>email id / mobile number + password (only customer can use phone number)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Check user is active or not deleted</li>
+          <li>Check password by MD5 with salt from environment variable</li>
+          <li>Store cookies by backend</li>
+          <li>Store token in local storage (by frontend)</li>
+          <li>Token generated by using user's _id and role (JWT)</li>
+        </ul>
+      </div>
+
+      <h3 id="auth-logout"><span class="method get">GET</span> /api/v1/auth/logout</h3>
+      <div class="process-block">
+        <ul>
+          <li>Only can logout when user is authorized</li>
+          <li>Remove cookies from backend</li>
+          <li>Remove FCM token from database</li>
+          <li>Need to remove token from local storage (by frontend)</li>
+        </ul>
+      </div>
+
+      <h3 id="auth-forgot-password"><span class="method post">POST</span> /api/v1/auth/forgot-password</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { email, phone } = req.body; //only customer can use phone number</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Verify if there's already OTP in the database with user credential, then update new OTP</li>
+          <li>If not, generate OTP and send via mobile number or email</li>
+          <li>OTP stored in optModel with expiry of 10 minutes</li>
+          <li>Note: Send OTP pending due to lack of credentials</li>
+        </ul>
+      </div>
+
+      <h3 id="auth-verify-otp"><span class="method post">POST</span> /api/v1/auth/verify-otp</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { otp, email, phone } = req.body; //only customer can use phone number</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Get OTP from OTP model using email or phone number</li>
+          <li>Check token expiry (10 min)</li>
+          <li>After verifying OTP, delete it from database to clear duplication</li>
+          <li>Send success in response</li>
+        </ul>
+      </div>
+
+      <h3 id="auth-set-forgot-password"><span class="method post">POST</span> /api/v1/auth/set-forgot-password</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { email, password } = req.body; //only customer can use phone number</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Update password field in user document with encryption using MD5</li>
+          <li>Send success response</li>
+        </ul>
+      </div>
+
+      <h3 id="auth-reset-password"><span class="method post">POST</span> /api/v1/auth/reset-password</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { token, oldPassword, newPassword } = req.body;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Check old password using salt and MD5</li>
+          <li>If old password matches, take new password, encrypt it and store in database</li>
+          <li>Send response</li>
+          <li>Note: Add confirm password field on frontend side</li>
+        </ul>
+      </div>
+
+      <h3 id="auth-send-verification"><span class="method post">POST</span> /api/v1/auth/sendEmailVerificationMail</h3>
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Take token from header (pass token in header from frontend)</li>
+          <li>Split the user token from the frontend token</li>
+          <li>Attach token with verification link</li>
+          <li>Send link using "sendgrid" (send email configuration pending)</li>
+          <li>Send success response</li>
+        </ul>
+      </div>
+
+      <h3 id="auth-verify-email"><span class="method post">POST</span> /api/v1/auth/verify-email</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { token } = req.query;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Get token from query</li>
+          <li>Decode token with JWT</li>
+          <li>Find user from the decoded data</li>
+          <li>Update status of "isEmailVerified" in database</li>
+          <li>Send success response</li>
+        </ul>
+      </div>
+
+      <h2>Guest User Module</h2>
+
+      <h3 id="guest-create"><span class="method post">POST</span> /api/v1/guest/create</h3>
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Use uuidv4 to create unique ID for every guest user</li>
+          <li>Add new guest uuid, role = "guest", type = "guest" in the payload</li>
+          <li>Create token using this payload (token expires in 24h)</li>
+          <li>
+            Note: Guest user data will not be stored in database, it is only for visit purpose and searching for hotels
+          </li>
+        </ul>
+      </div>
+
+      <h2>Hotel Module</h2>
+
+      <h3 id="hotel-create"><span class="method post">POST</span> /api/v1/hotel/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+        const {
+        name,
+        description,
+        address,
+        city,
+        state,
+        country,
+        pincode,
+        location,
+        images,
+        amenitiesId,
+        adminId, 
+        Managers, //if manager already created
+        contactNumber,
+        email,
+        website,
+        rating,
+        totalReviews,
+        } = req.body;
+    </pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only Admin/ChainAdmin and SuperAdmin can create Hotel</span></li>
+          <li>Chain admin can add multiple hotels but admin creates only one hotel</li>
+          <li>Check if hotel exists with same name and with same pincode</li>
+          <li>Upload images of hotel to S3 cloud</li>
+          <li>Send success response</li>
+          <li>Note: Image upload pending</li>
+        </ul>
+      </div>
+
+      <h3 id="hotel-get"><span class="method get">GET</span> /api/v1/hotel/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Hotel Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can see inactive or deleted hotels</span></li>
+        </ul>
+      </div>
+
+      <h3 id="hotel-delete"><span class="method delete">DELETE</span> /api/v1/hotel/delete/:ids</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Hotel Id (in req.params.ids)</li>
+      </ul>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Can select multiple ids to delete multiple hotels</li>
+          <li><span class="highlight">Only super admin can delete hotel</span></li>
+        </ul>
+      </div>
+
+      <h3 id="hotel-update"><span class="method put">PUT</span> /api/v1/hotel/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+        const {
+        name,
+        description,
+        address,
+        city,
+        state,
+        country,
+        pincode,
+        location,
+        images,
+        amenitiesId,
+        adminId,
+        managers,
+        contactNumber,
+        email,
+        website,
+        isActive,
+        isDeleted,
+        } = req.body;
+    </pre
+      >
+      <ul>
+        <li>Hotel Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can update inactive or deleted hotel</span></li>
+          <li>Check if new email is already taken</li>
+          <li>When user tries to delete account, it will not be deleted but just update isDeleted field</li>
+          <li>Only super admin can delete user profile</li>
+        </ul>
+      </div>
+
+      <h3 id="hotel-getall"><span class="method get">GET</span> /api/v1/hotel/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+        const { search = "", lat, lng, distance, adminId, customerId, amenitiesId } = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit);
+    </pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Can be used without Auth (using guest user) or with login</li>
+          <li>User can search hotel by distance, hotel name, city, country, email, contact number</li>
+          <li>User can search hotel by Amenities too (pass amenitiesId from frontend)</li>
+          <li><span class="highlight">Only super admin can see inactive or deleted hotels</span></li>
+          <li>Super Admin can search hotel by AdminIds too (pass adminId from frontend)</li>
+          <li>Only super admin and admin can search hotel by admin id</li>
+        </ul>
+      </div>
+
+      <h2>Hotel Amenities Module</h2>
+
+      <h3 id="amenities-create"><span class="method post">POST</span> /api/v1/hotelAmenities/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { name } = req.body;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Check if hotel amenity already exists with same name</li>
+          <li><span class="highlight">Only super admin can create hotel amenities</span></li>
+        </ul>
+      </div>
+
+      <h3 id="amenities-get"><span class="method get">GET</span> /api/v1/hotelAmenities/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Hotel Amenity Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can see inactive or deleted hotel amenities</span></li>
+        </ul>
+      </div>
+
+      <h3 id="amenities-delete"><span class="method delete">DELETE</span> /api/v1/hotelAmenities/delete/:ids</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Hotel Amenity Ids (in req.params.ids)</li>
+      </ul>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Can select multiple ids to delete multiple hotel amenities</li>
+          <li><span class="highlight">Only super admin can delete hotel amenity</span></li>
+        </ul>
+      </div>
+
+      <h3 id="amenities-update"><span class="method put">PUT</span> /api/v1/hotelAmenities/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { name } = req.body;</pre>
+      <ul>
+        <li>Hotel Amenity Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Super admin can change names</li>
+          <li>Check if hotel amenity already exists with same name</li>
+        </ul>
+      </div>
+
+      <h3 id="amenities-getall"><span class="method get">GET</span> /api/v1/hotelAmenities/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+        const { search = "", hotelId } = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit);
+    </pre
+      >
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can see inactive or deleted hotels</span></li>
+        </ul>
+      </div>
+
+      <h2>User Module</h2>
+
+      <h3 id="user-create"><span class="method post">POST</span> /api/v1/user/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+        const {
+        name,
+        email,
+        Password, //confirm password field add in frontend
+        role, // enum:["superAdmin", "admin", "manager", "supportAgent"]
+        phone,
+        profilePic,
+        hotelId,
+        isActive,
+        isChainAdmin,
+        } = req.body;
+    </pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can create "admins" and "support agents"</span></li>
+          <li><span class="highlight">Admin can create only "managers"</span></li>
+          <li>Password min length 8 must use validation from frontend</li>
+          <li>Password must include: 1 number, 1 uppercase, 1 lowercase, 1 special character</li>
+          <li>Password encrypted by MD5</li>
+          <li>If user is not admin or super admin, they cannot create new user</li>
+          <li>If user is chain admin, they can add multiple hotels</li>
+          <li>If user role is not chain admin or a manager, they can add only one hotel</li>
+          <li>Send new user data in response without password</li>
+        </ul>
+      </div>
+
+      <h3 id="user-get"><span class="method get">GET</span> /api/v1/user/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>User Id (in req.params.id)</li>
+      </ul>
+
+      <h3 id="user-delete"><span class="method delete">DELETE</span> /api/v1/user/delete/:ids</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>User Ids (in req.params.ids)</li>
+      </ul>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Can select multiple ids to delete multiple users</li>
+          <li><span class="highlight">Only super admin can delete user</span></li>
+        </ul>
+      </div>
+
+      <h3 id="user-update"><span class="method put">PUT</span> /api/v1/user/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+        const {
+        name,
+        email,
+        Password, //confirm password field add in frontend
+        role, // enum:["superAdmin", "admin", "manager", "supportAgent"]
+        phone,
+        profilePic,
+        hotelId,
+        isActive,
+        isChainAdmin,
+        } = req.body;
+    </pre
+      >
+      <ul>
+        <li>User Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can update inactive or deleted user</span></li>
+          <li>Check if new email is already taken</li>
+          <li>When user tries to delete account, it will not be deleted but just update isDeleted field</li>
+          <li>Only super admin can delete user profile</li>
+        </ul>
+      </div>
+
+      <h3 id="user-getall"><span class="method get">GET</span> /api/v1/user/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+        const { search = "", role, hotelId } = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit);
+    </pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Can be used without Auth (using guest user) or with login</li>
+          <li>User can search user by role, hotelId, or email</li>
+          <li><span class="highlight">Only super admin can see inactive or deleted users</span></li>
+        </ul>
+      </div>
+
+      <h2>Customer Module</h2>
+
+      <h3 id="customer-create"><span class="method post">POST</span> /api/v1/customer/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { name, email, password, phone, profilePic } = req.body;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Password min length 8 must use validation from frontend</li>
+          <li>
+            <span class="highlight"
+              >Password must include: 1 number, 1 uppercase, 1 lowercase, 1 special character</span
+            >
+          </li>
+          <li>Password encrypted by MD5</li>
+          <li>Check if customer already exists</li>
+          <li>Create new customer with new data</li>
+          <li>Send new customer data in response without password</li>
+        </ul>
+      </div>
+
+      <h3 id="customer-get"><span class="method get">GET</span> /api/v1/customer/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Customer Id (in req.params.id)</li>
+      </ul>
+
+      <h3 id="customer-delete"><span class="method delete">DELETE</span> /api/v1/customer/delete/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Customer Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can delete customer</span></li>
+        </ul>
+      </div>
+
+      <h3 id="customer-update"><span class="method put">PUT</span> /api/v1/customer/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const {
+  name,
+  email,
+  password,
+  phone,
+  profilePic,
+  isActive,
+  isDeleted,
+} = req.body;
+</pre
+      >
+      <ul>
+        <li>Customer Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can update inactive or deleted customer</span></li>
+          <li>Check if new email is already taken</li>
+          <li>When user tries to delete account, it will not be deleted but just update isDeleted field</li>
+          <li>Only super admin can delete customer profile</li>
+        </ul>
+      </div>
+
+      <h3 id="customer-getall"><span class="method get">GET</span> /api/v1/customer/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const { search = "", hotelId } = req.query;
+const page = parseInt(req.query.page) || 1;
+const limit = parseInt(req.query.limit);
+</pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Can be used without Auth (using guest user) or with login</li>
+          <li>User can search customer by hotelId or email</li>
+          <li><span class="highlight">Only super admin can see inactive or deleted customers</span></li>
+        </ul>
+      </div>
+
+      <h3 id="customer-favorites"><span class="method get">GET</span> /api/v1/customer/addToFavorites/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const { hotelId } = req.body;
+const customerId = req.params.id;
+</pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Check in user favorites list if hotel is already in user favorites list</li>
+          <li>If exists, remove hotel id; if not exists, add hotel id to users favorite list</li>
+          <li>Count number of favorite hotels</li>
+          <li>Send success response with count and hotel ID list</li>
+        </ul>
+      </div>
+
+      <h2>Reviews Module</h2>
+
+      <h3 id="review-create"><span class="method post">POST</span> /api/v1/review/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { customerId, hotelId, rating, comment } = req.body;</pre>
+
+      <p><strong>Validation:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Rating must be between 1-5</span></li>
+        </ul>
+      </div>
+
+      <h3 id="review-get"><span class="method get">GET</span> /api/v1/review/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Review Id (in req.params.id)</li>
+      </ul>
+
+      <h3 id="review-delete"><span class="method delete">DELETE</span> /api/v1/review/delete/:ids</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Review Ids (in req.params.ids)</li>
+      </ul>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can delete review</span></li>
+        </ul>
+      </div>
+
+      <h3 id="review-update"><span class="method put">PUT</span> /api/v1/review/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const {
+  customerId,
+  hotelId,
+  rating,
+  comment,
+  isActive,
+  isDeleted,
+} = req.body;
+</pre
+      >
+      <ul>
+        <li>Review Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can update inactive or deleted review</span></li>
+          <li>Check if new rating is valid</li>
+          <li>Check if new comment is valid</li>
+          <li>When user tries to delete review, it will not be deleted but just update isDeleted field</li>
+          <li>Only super admin can delete review</li>
+        </ul>
+      </div>
+
+      <h3 id="review-getall"><span class="method get">GET</span> /api/v1/review/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const { search = "", hotelId } = req.query;
+const page = parseInt(req.query.page) || 1;
+const limit = parseInt(req.query.limit);
+</pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Can be used without Auth (using guest user) or with login</li>
+          <li>User can search review by hotelId or customerId</li>
+          <li><span class="highlight">Only super admin can see inactive or deleted reviews</span></li>
+        </ul>
+      </div>
+
+      <h2>Room Module</h2>
+
+      <h3 id="room-create"><span class="method post">POST</span> /api/v1/room/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { name, description, price, hotelId } = req.body;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Check if room already exists</li>
+          <li>Create new room with new data</li>
+          <li>Send new room data in response</li>
+        </ul>
+      </div>
+
+      <h2>Master Room Module</h2>
+
+      <h3 id="masterroom-create"><span class="method post">POST</span> /api/v1/masterRoom/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { hotelId, masterRoomName, subRooms, fullDayPrice } = req.body;</pre>
+      <p><strong>Optional fields:</strong></p>
+      <pre>const { description, images, capacity, amenities, isActive } = req.body;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate if hotelId is valid</li>
+          <li>Check if master room already exists</li>
+          <li>Create new master room with provided data</li>
+          <li>Create sub rooms based on provided subRooms array</li>
+          <li>Add sub room IDs to master room</li>
+          <li>Upload images to S3 if provided</li>
+          <li>Send populated master room data in response</li>
+        </ul>
+      </div>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only managers can create master rooms</span></li>
+        </ul>
+      </div>
+
+      <h3 id="masterroom-get"><span class="method get">GET</span> /api/v1/masterRoom/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Master Room Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Find master room by ID with populated sub rooms</li>
+          <li>Only super admin can see deleted rooms</li>
+        </ul>
+      </div>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only managers can view master rooms</span></li>
+        </ul>
+      </div>
+
+      <h3 id="masterroom-delete"><span class="method delete">DELETE</span> /api/v1/masterRoom/delete/:ids</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Master Room Ids (in req.params.ids, comma-separated for multiple IDs)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Delete images from S3 for each room</li>
+          <li>Delete associated sub rooms</li>
+          <li>Delete manual slots associated with the master room</li>
+        </ul>
+      </div>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can delete master rooms</span></li>
+        </ul>
+      </div>
+
+      <h3 id="masterroom-update"><span class="method put">PUT</span> /api/v1/masterRoom/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Master Room Id (in req.params.id)</li>
+      </ul>
+
+      <h3 id="masterroom-getall"><span class="method get">GET</span> /api/v1/masterRoom/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const { search = "", hotelId } = req.query;
+const page = parseInt(req.query.page) || 1;
+const limit = parseInt(req.query.limit);
+</pre
+      >
+
+      <h2>Sub Room Module</h2>
+
+      <h3 id="subroom-create"><span class="method post">POST</span> /api/v1/subRoom/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { hotelId, masterRoomId, subRoomName, defaultSlots, slotDuration } = req.body;</pre>
+      <p><strong>Optional fields:</strong></p>
+      <pre>const { isAvailable, isActive } = req.body;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate hotel and master room IDs</li>
+          <li>Check if hotel and master room exist</li>
+          <li>Check if sub room already exists</li>
+          <li>Calculate slot price based on master room's fullDayPrice and slotDuration</li>
+          <li>Add price to default slots</li>
+          <li>Create new sub room</li>
+          <li>Add sub room ID to master room</li>
+        </ul>
+      </div>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only managers can create sub rooms</span></li>
+        </ul>
+      </div>
+
+      <h3 id="subroom-get"><span class="method get">GET</span> /api/v1/subRoom/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Sub Room Id (in req.params.id)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Find sub room by ID with populated master room details</li>
+          <li>Only super admin can see deleted sub rooms</li>
+        </ul>
+      </div>
+
+      <h3 id="subroom-delete"><span class="method delete">DELETE</span> /api/v1/subRoom/delete/:ids</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Sub Room Ids (in req.params.ids, comma-separated for multiple IDs)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Remove sub room IDs from associated master rooms</li>
+          <li>Delete manual slots associated with the sub rooms</li>
+          <li>Delete sub rooms</li>
+        </ul>
+      </div>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only super admin can delete sub rooms</span></li>
+        </ul>
+      </div>
+
+      <h3 id="subroom-update"><span class="method put">PUT</span> /api/v1/subRoom/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Sub Room Id (in req.params.id)</li>
+      </ul>
+
+      <h3 id="subroom-getall"><span class="method get">GET</span> /api/v1/subRoom/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const { search = "", hotelId, masterRoomId } = req.query;
+const page = parseInt(req.query.page) || 1;
+const limit = parseInt(req.query.limit);
+</pre
+      >
+
+      <h2>Slot Module</h2>
+
+      <h3 id="slot-create"><span class="method post">POST</span> /api/v1/slot/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>const { hotelId, masterRoomId, subRoomId, date, manualSlots } = req.body;</pre>
+      <p><strong>Optional fields:</strong></p>
+      <pre>const { isActive } = req.body;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate required fields and ID formats</li>
+          <li>Check if hotel exists</li>
+          <li>Validate manualSlots array</li>
+          <li>Extract slotDuration from subRoom and fullDayPrice from masterRoom</li>
+          <li>
+            Calculate slot price based on slotDuration:
+            <ul>
+              <li>3 hours: 30% of fullDayPrice</li>
+              <li>6 hours: 50% of fullDayPrice</li>
+              <li>12 hours: 75% of fullDayPrice</li>
+            </ul>
+          </li>
+          <li>Add calculated price to each slot in manualSlots array</li>
+          <li>Create new slot record</li>
+        </ul>
+      </div>
+
+      <p><strong>Security:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li><span class="highlight">Only managers can create slots</span></li>
+        </ul>
+      </div>
+
+      <h3 id="slot-get"><span class="method get">GET</span> /api/v1/slot/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Slot Id (in req.params.id)</li>
+      </ul>
+
+      <h3 id="slot-update"><span class="method put">PUT</span> /api/v1/slot/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Slot Id (in req.params.id)</li>
+        <li>hotelId, masterRoomId, subRoomId, date, manualSlots in request body</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate slot ID and other IDs</li>
+          <li>Check if slot exists</li>
+          <li>Only superadmin can update deleted slots</li>
+          <li>Recalculate slot prices if needed</li>
+          <li>Update slot with new data</li>
+        </ul>
+      </div>
+
+      <h3 id="slot-delete"><span class="method delete">DELETE</span> /api/v1/slot/delete/:ids</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Slot Ids (in req.params.ids, comma-separated for multiple IDs)</li>
+      </ul>
+
+      <h3 id="slot-getall"><span class="method get">GET</span> /api/v1/slot/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const { search = "", hotelId, masterRoomId, subRoomId } = req.query;
+const page = parseInt(req.query.page) || 1;
+const limit = parseInt(req.query.limit);
+</pre
+      >
+
+      <h2>Booking Module</h2>
+
+      <h3 id="booking-create"><span class="method post">POST</span> /api/v1/booking/create</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const {
+  customerId,
+  hotelId,
+  startTime,
+  endTime,
+  slotPrice,
+  slotDuration,
+  bookingDate,
+  checkInDate,
+  guests,
+  totalPrice,
+  paymentType
+} = req.body;</pre
+      >
+      <p><strong>Optional fields:</strong></p>
+      <pre>const { specialRequests = "" } = req.body;</pre>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate required fields</li>
+          <li>Validate if IDs are valid MongoDB ObjectIds</li>
+          <li>Create new booking with initial status "pending"</li>
+          <li>Payment processing (pending implementation)</li>
+          <li>Send notification to customer (pending implementation)</li>
+        </ul>
+      </div>
+
+      <h3 id="booking-confirmation"><span class="method post">POST</span> /api/v1/booking/confirmation/:bookingId</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Booking Id (in req.params.bookingId)</li>
+        <li>status, slotId (in request body)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate booking ID and slot ID</li>
+          <li>Find the booking and check if it's already booked</li>
+          <li>Find the slot and mark it as unavailable</li>
+          <li>Validate status ("booked", "cancelled", "completed", or "pending")</li>
+          <li>Update payment status to "paid"</li>
+          <li>Update booking status and save</li>
+        </ul>
+      </div>
+
+      <h3 id="booking-cancel-request">
+        <span class="method post">POST</span> /api/v1/booking/cancel-request/:bookingId
+      </h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Booking Id (in req.params.bookingId)</li>
+      </ul>
+      <p><strong>Optional fields:</strong></p>
+      <ul>
+        <li>reason (in request body)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate booking ID</li>
+          <li>Find the booking</li>
+          <li>Check if booking is already cancelled</li>
+          <li>Check if cancellation is already requested</li>
+          <li>
+            Update booking with cancellation request details:
+            <ul>
+              <li>requested: true</li>
+              <li>status: "pending"</li>
+              <li>message: reason provided</li>
+              <li>requestedAt: current date</li>
+            </ul>
+          </li>
+          <li>Return updated booking with populated details</li>
+        </ul>
+      </div>
+
+      <h3 id="booking-cancel-response">
+        <span class="method post">POST</span> /api/v1/booking/cancel-response/:bookingId
+      </h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Booking Id (in req.params.bookingId)</li>
+        <li>status ("approved" or "rejected") in request body</li>
+      </ul>
+      <p><strong>Optional fields:</strong></p>
+      <ul>
+        <li>message (in request body)</li>
+      </ul>
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate booking ID</li>
+          <li>Validate status (must be "approved" or "rejected")</li>
+          <li>Find the booking with populated slot details</li>
+          <li>Check if cancellation was requested</li>
+          <li>Check if already responded</li>
+          <li>Update cancellation request details</li>
+          <li>
+            If approved:
+            <ul>
+              <li>Update booking status to "cancelled"</li>
+              <li>Update payment status to "cancelled"</li>
+              <li>Mark the slot as available again</li>
+            </ul>
+          </li>
+          <li>Save changes and return updated booking</li>
+        </ul>
+      </div>
+
+      <h3 id="booking-get"><span class="method get">GET</span> /api/v1/booking/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Booking Id (in req.params.id)</li>
+      </ul>
+
+      <h3 id="booking-update"><span class="method put">PUT</span> /api/v1/booking/update/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Booking Id (in req.params.id)</li>
+      </ul>
+
+      <h3 id="booking-delete"><span class="method delete">DELETE</span> /api/v1/booking/delete/:ids</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Booking Ids (in req.params.ids, comma-separated for multiple IDs)</li>
+      </ul>
+
+      <h3 id="booking-getall"><span class="method get">GET</span> /api/v1/booking/getAll</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const { search = "", customerId, hotelId, status } = req.query;
+const page = parseInt(req.query.page) || 1;
+const limit = parseInt(req.query.limit);
+</pre
+      >
+
+      <h2>Common Routes Module</h2>
+
+      <h3 id="common-upload"><span class="method post">POST</span> /api/v1/common/tempFileUpload</h3>
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>This route stores image/file in temporary location on S3 server in temp folder</li>
+          <li>Uses S3 configuration for storing data</li>
+          <li>Will transfer file to folder later when every process is completed</li>
+          <li>Uses "multer-s3" and "@aws-sdk/client-s3"</li>
+        </ul>
+      </div>
+
+      <h2>Payment Module</h2>
+
+      <h3 id="payment-intent"><span class="method post">POST</span> /api/v1/payment/create-payment-intent</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const {
+  bookingId,
+  amount,
+  currency = "usd",
+  paymentMethodType
+} = req.body;
+</pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Create Stripe payment intent</li>
+          <li>Return client secret for frontend to complete payment</li>
+          <li>Associate payment intent with booking</li>
+        </ul>
+      </div>
+
+      <h3 id="payment-webhook"><span class="method post">POST</span> /api/v1/payment/webhook</h3>
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Receive webhook from Stripe</li>
+          <li>Verify webhook signature</li>
+          <li>Update payment status in booking record</li>
+          <li>Send confirmation if payment successful</li>
+          <li>Send notification to relevant parties</li>
+        </ul>
+      </div>
+
+      <h3 id="payment-get"><span class="method get">GET</span> /api/v1/payment/get/:id</h3>
+      <p><strong>Required fields:</strong></p>
+      <ul>
+        <li>Payment Id (in req.params.id)</li>
+        <li>Only related customer, hotel staff or super admin can view</li>
+      </ul>
+
+      <h3 id="payment-refund"><span class="method post">POST</span> /api/v1/payment/refund</h3>
+      <p><strong>Required fields:</strong></p>
+      <pre>
+const {
+  paymentId,
+  bookingId,
+  amount,
+  reason
+} = req.body;
+</pre
+      >
+
+      <p><strong>Process:</strong></p>
+      <div class="process-block">
+        <ul>
+          <li>Validate refund eligibility</li>
+          <li>Process refund through Stripe</li>
+          <li>Update booking and payment records</li>
+          <li>Send notification to customer</li>
+          <li>Send success response with refund details</li>
+        </ul>
+      </div>
+    </div>
+    <!-- End of container -->
+
+    <a id="back-to-top" href="#top" title="Back to top">↑</a>
+
+    <script>
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          if (this.getAttribute("href") === "#") return;
+
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Show/hide back-to-top button based on scroll position
+      window.addEventListener("scroll", function () {
+        var backToTopButton = document.getElementById("back-to-top");
+        if (window.pageYOffset > 300) {
+          backToTopButton.style.display = "block";
+        } else {
+          backToTopButton.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
